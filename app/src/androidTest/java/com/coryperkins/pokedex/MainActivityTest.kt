@@ -29,7 +29,7 @@ class MainActivityTest {
     fun setUp() {}
 
     @Test
-    fun `recyclerView exists`() {
+    fun recyclerViewExists() {
         onView(
             withId(R.id.recycler_view)
         ).check(
@@ -38,7 +38,7 @@ class MainActivityTest {
     }
 
     @Test
-    fun `ui contains entry for each pokemon`() {
+    fun recyclerViewContainsEntryForEachPokemon() {
         // get list of each pokemon
         
 

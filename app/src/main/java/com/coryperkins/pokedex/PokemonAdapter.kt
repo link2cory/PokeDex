@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 
-class PokemonAdapter(val pokemonData: ArrayList<String>) : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
+class PokemonAdapter(val pokemonData: List<PokemonSpecies>) : RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder>() {
     class PokemonViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
@@ -17,7 +17,8 @@ class PokemonAdapter(val pokemonData: ArrayList<String>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-        holder.textView.text = pokemonData[position]
+
+        holder.textView.text = pokemonData.get(position).name
     }
 
     override fun getItemCount() = pokemonData.size

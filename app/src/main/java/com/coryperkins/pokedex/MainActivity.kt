@@ -4,15 +4,34 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.os.StrictMode
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private val pokemonData: ArrayList<String>
+    private val pokemonData: List<PokemonSpecies>
 
     init {
-        pokemonData = arrayListOf("Bulbasaur", "IvySaur", "Venosaur")
+        // todo: put this in a thread you dummy!
+        // bypass the networkOnMainThreadException
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+
+        val api = PokeAPI()
+
+        // get the total number of pokemon
+        val speciesCountResponse = api.getSpeciesCount().execute()
+
+        // if the request failed, set the count to zero
+        val speciesCount = speciesCountResponse.body()?.count ?: 0
+
+        // get the actual pokemon data
+        val speciesListResponse = api.getSpeciesList(speciesCount).execute()
+
+        // if the request failed set the data to empty
+        pokemonData = speciesListResponse.body()?.results ?: emptyList()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
